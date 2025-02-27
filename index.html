@@ -22,6 +22,7 @@
                    
                     <li><a href="#services" class="nav-link">Services</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#Support" class = "nav-link">Support Me</a></li>
                 </ul>
             </nav>
         </div>
@@ -269,5 +270,188 @@
     </footer>
 
     <script src="index.js"></script>
+  
+<div id="supportModal" class="support-modal">
+  <div class="support-modal-content">
+    <span class="support-close-btn">&times;</span>
+    <h2 class="support-title">Support My Work via Ethereum</h2>
+    <p class="support-description">Your contribution helps me continue creating and improving my projects. Thank you for your support!</p>
+    <div class="eth-address-box" id="ethAddressBox">0x12..</div>
+    <button class="support-copy-btn" id="supportCopyBtn">
+      <i class="fas fa-copy"></i> Copy Address
+    </button>
+    <p class="support-copy-message" id="supportCopyMessage">Address copied successfully!</p>
+  </div>
+</div>
+
+<style>
+
+.support-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.support-modal-content {
+  background-color: #ffffff;
+  margin: 15% auto;
+  padding: 30px;
+  width: 450px;
+  max-width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  position: relative;
+  animation: modalSlideDown 0.3s ease;
+}
+
+@keyframes modalSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.support-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.support-close-btn:hover {
+  color: #000;
+}
+
+.support-title {
+  color: #3498db;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.support-description {
+  color: #555;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.eth-address-box {
+  background-color: #f7f9fc;
+  border: 1px solid #e1e5ea;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  font-family: monospace;
+  font-size: 16px;
+  color: #333;
+  word-break: break-all;
+  position: relative;
+}
+
+.support-copy-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.support-copy-btn:hover {
+  background-color: #2980b9;
+}
+
+.support-copy-message {
+  color: #27ae60;
+  margin-top: 15px;
+  font-size: 14px;
+  display: none;
+}
+</style>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  const supportLinks = document.querySelectorAll('.nav-link');
+  
+  supportLinks.forEach(link => {
+    if (link.textContent.includes('Support Me')) {
+ 
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('supportModal').style.display = 'block';
+        document.body.style.overflow = 'hidden'; 
+      });
+    }
+  });
+  
+
+  const closeBtn = document.querySelector('.support-close-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+  
+
+  window.addEventListener('click', function(e) {
+    if (e.target == document.getElementById('supportModal')) {
+      closeModal();
+    }
+  });
+  
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('supportModal').style.display === 'block') {
+      closeModal();
+    }
+  });
+
+  const copyBtn = document.getElementById('supportCopyBtn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function() {
+      const ethAddress = document.getElementById('ethAddressBox').textContent;
+      
+    
+      navigator.clipboard.writeText(ethAddress).then(function() {
+    
+        const copyMessage = document.getElementById('supportCopyMessage');
+        copyMessage.style.display = 'block';
+        
+        
+        setTimeout(function() {
+          copyMessage.style.display = 'none';
+        }, 2000);
+      }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+      });
+    });
+  }
+  
+  function closeModal() {
+    document.getElementById('supportModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; 
+    document.getElementById('supportCopyMessage').style.display = 'none';
+  }
+});
+</script>
 </body>
 </html>
